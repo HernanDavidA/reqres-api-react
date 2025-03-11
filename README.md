@@ -17,7 +17,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:5173) with your browser to see the result.
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
 
 You can start editing the provided sample `index.html`. The `dev` script will start webpack dev server, open your browser and provide live reload so you can see your changes after saving file in the editor.
 
