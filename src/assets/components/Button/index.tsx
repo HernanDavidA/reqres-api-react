@@ -1,7 +1,7 @@
 
 
 type Props = {
-    props: string;
+    props?: string;
     children?: React.ReactNode;
     onClick?: () => void;
     showModal?: boolean;

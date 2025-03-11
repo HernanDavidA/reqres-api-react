@@ -16,7 +16,7 @@ const List = ({ data, moreAbout}: Props)=> {
 
   return (
   
-    <ul className="list-group flex-row">
+    <ul className="list-group flex-row flex-wrap">
       {
         data.map((user) => (
           <li className="list-group-item align-items-start" key={user.id}>
@@ -25,6 +25,9 @@ const List = ({ data, moreAbout}: Props)=> {
             <Button onClick={() => moreAbout(user.id)} props='More about' showModal={true}/>
             </li>
         ))
+      }
+      {
+        data.length === 0 && <li className="list-group-item align-items-start">No users</li>
       }
     </ul>
   )
