@@ -7,7 +7,7 @@ type User = {
   email: string;
 }
 type Props = {
-    data: User;
+    data: User | null;
     showModal: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }

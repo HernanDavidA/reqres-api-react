@@ -19,7 +19,7 @@ const List = ({ data, moreAbout}: Props)=> {
     <ul className="list-group flex-row flex-wrap">
       {
         data.map((user) => (
-          <li className="list-group-item align-items-start" key={user.id}>
+          <li className="list-group-item align-items-start w-70 m-2" key={user.id}> 
             <img src={user.avatar} className="rounded-circle" alt={user.first_name} />
             <p>{user.first_name}</p>
             <Button onClick={() => moreAbout(user.id)} props='More about' showModal={true}/>

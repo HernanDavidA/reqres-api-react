@@ -4,28 +4,49 @@ import Form from './assets/components/Form'
 import Modal from './assets/components/Modal'
 import List from './assets/components/List'
 
+
+type User = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  avatar: string;
+};
+
 function App() {
-  const [data, setData] = useState([])
-  const [user, setUser] = useState<any>(null)
+  const [data, setData] = useState<User[]>([])
+  const [user, setUser] = useState<User | null>(null)
   const [visible, setVisible] = useState(false)
   
-  const registerUser = async (data : { first_name : string, last_name: string, email: string, avatar: string}) => {
-
-    const response = await fetch('https://reqres.in/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    const newUser = await response.json()
-    setUser((prev: any ) => ({...prev, ...newUser.data}))
-    setVisible(true)
+  const registerUser = async (data: { first_name: string, last_name: string, email: string, avatar: string }) => {
+    try {
+      const response = await fetch("https://reqres.in/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
   
-    console.log("New user: ", newUser)
-    
+      const result = await response.json();
+      const newUser = { ...data, id: result.id || Date.now() }; // Si la API no devuelve ID, usamos `Date.now()`
+      
+      addUser(newUser); // Guardamos en `localStorage` y en `setData`
+      setUser(newUser); // Mostramos el usuario en el modal
+      setVisible(true);
+    } catch (error) {
+      console.error("Error registering user:", error);
+    }
+  };
+  const getLocalUsers = () => {
+    const savedUsers = localStorage.getItem('users')
+    return savedUsers ? JSON.parse(savedUsers) : []
   }
 
+  useEffect(()=> {
+  const storedUsers = getLocalUsers();
+  setData((prev) => [...prev, ...storedUsers])
+  }, []);
 
   useEffect(() => {
     const savedUsers = localStorage.getItem('users')
@@ -47,7 +68,11 @@ function App() {
       .catch(err => console.log("ERROR FETCHING USER", err))
       console.log("User: ", user)
   }
-
+  const addUser = (newUser: User) => {
+    const updatedUsers = [...getLocalUsers(), newUser];
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    setData((prev) => [...prev, newUser]); // Lo agregamos a la pantalla
+  };
 
   return (
 
